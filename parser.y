@@ -1,11 +1,10 @@
 %code top{
 #include <stdio.h>
-#include "tokens.h" //agregue yo
 #include "scanner.h" // se tiene que relacionar con scanner.l
 }
 %code provides {
 void yyerror(const char *s);
-extern int nerrlex;
+extern int yylexerrs;
 }
 %defines "parser.h" //modifique
 %output "parser.c" //modifique
@@ -14,28 +13,61 @@ extern int nerrlex;
 	double real;
 	char   *str;
 }
-%token<str> ID
-%token<num> DECIMAL
-%token<real> REAL
+%token PROGRAMA DECLARAR LEER ESCRIBIR FIN FDT ID CONSTANTE  PUNCTVALIDO ASIGNACION 
+%left '+' '-'
+%left '*' '/'
+%precedence NEGATIVO
 
-%code {
-char *token_names[] = {"ID", "DECIMAL", "REAL"};
-}
 
 %%
-
-todo	: listado {if (nerrlex) YYABORT;} 
-listado : cte
-	| listado cte
-	;
-cte	: ID {printf("Token: %s\t\tValor texto: %s\n", token_names[0], $<str>1);}
-	| DECIMAL {printf("Token: %s\t\tValor entero: %d\n",
-			token_names[1], $DECIMAL);}
-	| REAL {printf("Token: %s\t\tValor real: %g\n", 
-			token_names[2], $REAL);}
-	;
+todo			: programa	{ if (yynerrs || yylexerrs) YYABORT;}
+			;
+programa		: PROGRAMA listaSentencias FIN
+			;
+listaSentencias	: listaSentencias sentencia
+			| sentencia
+			; 
+sentencia		: declaracion 
+			| escritura
+                       | lectura
+			| asignacion
+                       | expresion
+			;
+declaracion		: DECLARAR ID '.' 			        {printf("\declarar %s", ID);}
+			; 
+escritura		: ESCRIBIR '(' listaExpresiones ')' '.'  	{printf("\nescribir");}
+			; 
+lectura 		: LEER '(' listaIdentificadores ')' '.' 	{printf("\nleer");}
+			;
+asignacion		: ID ASIGNACION expresion '.' 	        {printf("\nasignación");}
+			;			
+listaExpresiones	: listaExpresiones ',' expresion
+			| expresion
+			;
+listaIdentificadores 	: listaIdentificadores ',' ID 
+			| ID
+			;
+expresion              : expresion operadorAditivo termino
+			| termino
+			| '-' expresion %prec NEGATIVO  		{printf("\ninversión");}
+			;
+termino		: termino operadorMultiplicativo factor
+		        | factor
+		        ;
+factor			: operadorAditivo cteNumerica 
+			| '(' expresion ')'                            {printf("\nparéntesis");}
+                       | operadorAditivo ID
+			;
+cteNumerica            : cteNumerica CONSTANTE
+			| CONSTANTE
+			;
+operadorAditivo        : '+'  			               {printf("\nsuma");}
+			| '-' 			                       {printf("\nresta");}
+			;
+operadorMultiplicativo : '*'    			               {printf("\nmultiplicación");}
+			| '/'    			               {printf("\ndivisión");}
+			;
 %%
-
 int nerrlex = 0;
 int main() {
 	switch( yyparse() ){

@@ -4,47 +4,21 @@
 /* Noviembre 2020 */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include "scanner.h"
+#include "parser.h"
 
-int main()
-{
-	TOKEN token;
 
-	do {
-		token = yylex();
-		switch (token) {
-		case RESERVADA:
-            printf("Token: %s\t\t\t\n", yytext);
+int main () {
+printf("\n--------------------------------");
+switch( yyparse() ) {
+		case 0: printf("\n\nCompilación terminada con éxito");
+			break;		
+		case 1: printf("\n\nErrores de compilación");
 			break;
-        case OPERADOR:
-            printf("Token: '%s'\t\t\t\n", yytext);
-			break;
-        case PUNCTVALIDO:
-            printf("Token: '%s'\t\t\t\n", yytext);
-			break;
-        case ASIGNACION:
-            printf("Token: Asignación \n");
-			break;
-		case ID:
-            printf("Token: %s\t\t\t\tLexema: %s\n", "Identificador", yytext);
-			break;
-		case CONSTANTE:
-            printf("Token: %s\t\t\tLexema: %s\n", "Constante Numerica", yytext);
-			break;
-		case DESCONOCIDA:
-            printf("Error léxico: cadena desconocida: %s\n", yytext);
-			break;
-        case IDINVALIDO:
-            printf("Error léxico: identificador inválido: %s\n", yytext);
-			break;
-        case CONSTINVALIDA:
-            printf("Error léxico: constante inválida: %s\n", yytext);
-			break;
+		case 2: printf("\n\nNo hay memoria suficiente");
+			break;		
 		}
-	} while (token != FDT);
-
-     printf("Token: Fin de Archivo \n");
-
-	return EXIT_SUCCESS;
+printf("\nErrores sintácticos:  %i\t - Errores lexicos:  %i\n", yynerrs, yylexerrs);
+printf("--------------------------------\n\n");
+return 0;
 }
+
