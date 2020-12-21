@@ -3,9 +3,8 @@
 #define yyIN_HEADER 1
 
 #line 6 "scanner.h"
-#include "parser.h"
 
-#line 9 "scanner.h"
+#line 8 "scanner.h"
 
 #define  YY_INT_ALIGNED short int
 
@@ -201,6 +200,8 @@ YY_BUFFER_STATE yy_scan_bytes ( const char *bytes, int len  );
 void *yyalloc ( yy_size_t  );
 void *yyrealloc ( void *, yy_size_t  );
 void yyfree ( void *  );
+
+/* Begin user sect3 */
 
 extern int yylineno;
 
@@ -465,8 +466,9 @@ extern int yylex (void);
 #undef yyTABLES_NAME
 #endif
 
-#line 48 "scanner.l"
+#line 49 "scanner.l"
 
-#line 471 "scanner.h"
+
+#line 473 "scanner.h"
 #undef yyIN_HEADER
 #endif /* yyHEADER_H */

@@ -1,9 +1,8 @@
-/* A Bison parser, made by GNU Bison 3.5.1.  */
+/* A Bison parser, made by GNU Bison 3.0.4.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
-   Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -31,9 +30,6 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
-/* Undocumented macros, especially those whose name start with YY_,
-   are private implementation details.  Do not rely on them.  */
-
 #ifndef YY_YY_PARSER_H_INCLUDED
 # define YY_YY_PARSER_H_INCLUDED
 /* Debug traces.  */
@@ -49,12 +45,12 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    PROGRAMA = 258,
-    DECLARAR = 259,
-    LEER = 260,
-    ESCRIBIR = 261,
-    FIN = 262,
-    FDT = 263,
+    FDT = 258,
+    PROGRAMA = 259,
+    DECLARAR = 260,
+    LEER = 261,
+    ESCRIBIR = 262,
+    FIN = 263,
     ID = 264,
     CONSTANTE = 265,
     PUNCTVALIDO = 266,
@@ -65,18 +61,7 @@ extern int yydebug;
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-union YYSTYPE
-{
-#line 11 "parser.y"
-
-	int    num;
-	double real;
-	char   *str;
-
-#line 77 "parser.h"
-
-};
-typedef union YYSTYPE YYSTYPE;
+typedef char * YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define YYSTYPE_IS_DECLARED 1
 #endif
@@ -86,11 +71,12 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 /* "%code provides" blocks.  */
-#line 5 "parser.y"
+#line 6 "parser.y" /* yacc.c:1909  */
 
 void yyerror(const char *s);
-extern int yylexerrs;
+extern int yylexerrs; /* Contador de Errores Léxicos */
+extern int yynerrs; /* Contador de Errores Semanticos */
 
-#line 95 "parser.h"
+#line 81 "parser.h" /* yacc.c:1909  */
 
 #endif /* !YY_YY_PARSER_H_INCLUDED  */

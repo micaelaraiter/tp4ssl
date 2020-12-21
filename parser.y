@@ -5,29 +5,26 @@
 
 %code provides {
 void yyerror(const char *s);
-extern int yylexerrs;
-extern int errlex; 	/* Contador de Errores Léxicos */
+extern int yylexerrs; /* Contador de Errores Léxicos */
+extern int yynerrs; /* Contador de Errores Semanticos */
 }
-
-%define api.value.type{char *}
 
 %defines "parser.h" //modifique
 %output "parser.c" //modifique
 %start programa /* El no terminal que es AXIOMA de la gramatica del TP2 */
+
+
+%define api.value.type{char *}
 %define parse.error verbose /* Mas detalles cuando el Parser encuentre un error en vez de "Syntax Error" */
-%union {
-	int    num;
-	double real;
-	char   *str;
-}
-%token PROGRAMA DECLARAR LEER ESCRIBIR FIN FDT ID CONSTANTE  PUNCTVALIDO ASIGNACION 
+
+%token FDT PROGRAMA DECLARAR LEER ESCRIBIR FIN ID CONSTANTE PUNCTVALIDO ASIGNACION
 %left '+' '-'
 %left '*' '/'
 %precedence NEGATIVO
 
 
 %%
-programa		: PROGRAMA listaSentencias FIN {if (errlex+yynerrs > 0) YYABORT;else YYACCEPT;};
+programa		: PROGRAMA listaSentencias FIN { if (yynerrs || yylexerrs) YYABORT;}
 			;
 listaSentencias	: listaSentencias sentencia
 			| sentencia
@@ -38,7 +35,7 @@ sentencia		: declaracion
 			| asignacion
                        | expresion
 			;
-declaracion		: DECLARAR ID '.' 			        {printf("\declarar %s", ID);}
+declaracion		: DECLARAR ID '.' 			        {printf("\ndeclarar %s", $ID);}
 			; 
 escritura		: ESCRIBIR '(' listaExpresiones ')' '.'  	{printf("\nescribir");}
 			; 
@@ -75,6 +72,7 @@ operadorMultiplicativo : '*'    			               {printf("\nmultiplicación");}
 %%
 
 //int nerrlex = 0;
+//int yylexerrs = 0;
 //int main() {
 //	switch( yyparse() ){
 //	case 0:

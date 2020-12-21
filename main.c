@@ -1,7 +1,7 @@
 /* GRUPO 5 */
 /* Integrantes: Valentina Lamanna, Micaela Raiter, y Lucila Melamed */
 /* Curso K2004 (Jueves TM) */
-/* Noviembre 2020 */
+/* Diciembre 2020 */
 
 #include <stdio.h>
 #include "parser.h"
