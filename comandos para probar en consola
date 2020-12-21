@@ -3,3 +3,5 @@ $ flex scanner.l
 $ bison parser.y
 $ gcc -o compilador scanner.c parser.c main.c -lfl
 $ ./compilador <entradaok.txt
+
+(entradaok o cualquiera que querramos probar)
