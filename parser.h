@@ -1,8 +1,9 @@
-/* A Bison parser, made by GNU Bison 3.0.4.  */
+/* A Bison parser, made by GNU Bison 3.5.1.  */
 
 /* Bison interface for Yacc-like parsers in C
 
-   Copyright (C) 1984, 1989-1990, 2000-2015 Free Software Foundation, Inc.
+   Copyright (C) 1984, 1989-1990, 2000-2015, 2018-2020 Free Software Foundation,
+   Inc.
 
    This program is free software: you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -30,6 +31,9 @@
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
+/* Undocumented macros, especially those whose name start with YY_,
+   are private implementation details.  Do not rely on them.  */
+
 #ifndef YY_YY_PARSER_H_INCLUDED
 # define YY_YY_PARSER_H_INCLUDED
 /* Debug traces.  */
@@ -45,17 +49,16 @@ extern int yydebug;
 # define YYTOKENTYPE
   enum yytokentype
   {
-    FDT = 258,
-    PROGRAMA = 259,
-    DECLARAR = 260,
-    LEER = 261,
-    ESCRIBIR = 262,
-    FIN = 263,
-    ID = 264,
-    CONSTANTE = 265,
-    PUNCTVALIDO = 266,
-    ASIGNACION = 267,
-    NEGATIVO = 268
+    PROGRAMA = 258,
+    DECLARAR = 259,
+    LEER = 260,
+    ESCRIBIR = 261,
+    FIN = 262,
+    ID = 263,
+    CONSTANTE = 264,
+    PUNCTVALIDO = 265,
+    ASIGNACION = 266,
+    NEGATIVO = 267
   };
 #endif
 
@@ -71,12 +74,12 @@ extern YYSTYPE yylval;
 
 int yyparse (void);
 /* "%code provides" blocks.  */
-#line 6 "parser.y" /* yacc.c:1909  */
+#line 6 "parser.y"
 
 void yyerror(const char *s);
 extern int yylexerrs; /* Contador de Errores Léxicos */
 extern int yynerrs; /* Contador de Errores Semanticos */
 
-#line 81 "parser.h" /* yacc.c:1909  */
+#line 84 "parser.h"
 
 #endif /* !YY_YY_PARSER_H_INCLUDED  */

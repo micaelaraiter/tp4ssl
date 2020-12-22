@@ -6,8 +6,6 @@
 
 %{
 char buffer[200];
-int yylexerrs = 0;
-int yynerrs = 0;
 %}
 
 %option header-file="scanner.h"
@@ -21,16 +19,16 @@ L                   [[:alpha:]]
 D                   [0-9]
 LD                  [[:alnum:]]
 S                   [[:space:]]
-PUNCT               [;,\(\)]       
-E                   [[:^alnum:]]{-}[[:space:]]{-}[;,\(\)]{-}[\+\-\*/]            
+PUNCT               [;,\(\).@]       
+E                   [[:^alnum:]]{-}[[:space:]]{-}[;,\(\.@)]{-}[\+\-\*/]            
 
 
 %%
-"programa"	                    {return PROGRAMA;}
-"declarar"	                    {return DECLARAR;}
-"leer"		                    {return LEER;}
-"escribir"	                    {return ESCRIBIR;}
-"fin-prog"		                {return FIN;}
+programa	                    return PROGRAMA;
+declarar	                    return DECLARAR;
+leer	                            return LEER;
+escribir	                    return ESCRIBIR;
+fin-prog		            return FIN;
 {L}{LD}*                        {yylval = strdup(yytext); return ID;}
 {D}+                            {yylval = strdup(yytext); return CONSTANTE;}
 "+"		                        {return '+';}
@@ -44,7 +42,7 @@ E                   [[:^alnum:]]{-}[[:space:]]{-}[;,\(\)]{-}[\+\-\*/]
 "##".*                          ;/* NO HACE NADA, ES UN COMENTARIO */
 {S}+                            ;/* ESPACIO */
 {D}{LD}+                        {yylexerrs++; sprintf(buffer,"Error Léxico:  Constante inválida: %s",yytext); yyerror(buffer);}
-{L}{LD}*{E}+{LD}*               {yylexerrs++; sprintf(buffer,"Error Léxico:  Identificador inválido: %s", yytext); yyerror(buffer);}
+{L}{LD}*{E}+{LD}*+{PUNCT}{LD}*               {yylexerrs++; sprintf(buffer,"Error Léxico:  Identificador inválido: %s", yytext); yyerror(buffer);}
 {E}+                            {yylexerrs++; sprintf(buffer,"Error Léxico:  Cadena desconocida: %s", yytext); yyerror(buffer);}
 %%
 

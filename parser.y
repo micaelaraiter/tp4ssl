@@ -11,19 +11,19 @@ extern int yynerrs; /* Contador de Errores Semanticos */
 
 %defines "parser.h" //modifique
 %output "parser.c" //modifique
-%start programa /* El no terminal que es AXIOMA de la gramatica del TP2 */
 
 
 %define api.value.type{char *}
 %define parse.error verbose /* Mas detalles cuando el Parser encuentre un error en vez de "Syntax Error" */
 
-%token FDT PROGRAMA DECLARAR LEER ESCRIBIR FIN ID CONSTANTE PUNCTVALIDO ASIGNACION
+%token  PROGRAMA DECLARAR LEER ESCRIBIR FIN ID CONSTANTE PUNCTVALIDO ASIGNACION
 %left '+' '-'
 %left '*' '/'
 %precedence NEGATIVO
 
 
 %%
+
 programa		: PROGRAMA listaSentencias FIN { if (yynerrs || yylexerrs) YYABORT;}
 			;
 listaSentencias	: listaSentencias sentencia
@@ -34,14 +34,19 @@ sentencia		: declaracion
                        | lectura
 			| asignacion
                        | expresion
+                       | error ';'
 			;
-declaracion		: DECLARAR ID '.' 			        {printf("\ndeclarar %s", $ID);}
+declaracion		: DECLARAR ID ';' 			        {printf("\ndeclarar %s", $ID);}
+			| error ';'
 			; 
-escritura		: ESCRIBIR '(' listaExpresiones ')' '.'  	{printf("\nescribir");}
+escritura		: ESCRIBIR '(' listaExpresiones ')' ';'  	{printf("\nescribir");}
+			| error ';'
 			; 
-lectura 		: LEER '(' listaIdentificadores ')' '.' 	{printf("\nleer");}
+lectura 		: LEER '(' listaIdentificadores ')' ';' 	{printf("\nleer");}
+			| error ';'
 			;
-asignacion		: ID ASIGNACION expresion '.' 	        {printf("\nasignación");}
+asignacion		: ID ASIGNACION expresion ';' 	        {printf("\nasignación");}
+			| error ';'
 			;			
 listaExpresiones	: listaExpresiones ',' expresion
 			| expresion
@@ -86,6 +91,7 @@ operadorMultiplicativo : '*'    			               {printf("\nmultiplicación");}
 //}
 
 /* Informa la ocurrencia de un error. */
+int yylexerrs = 0;
 void yyerror(const char *s){
 	printf("línea #%d: %s\n", yylineno, s);
 	return;
