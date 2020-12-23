@@ -71,7 +71,7 @@ cteNumerica            : cteNumerica CONSTANTE
 operadorAditivo        : '+'  			               {printf("\nsuma");}
 			| '-' 			                       {printf("\nresta");}
 			;
-operadorMultiplicativo : '*'    			               {printf("\nmultiplicación");}
+operadorMultiplicativo : '*'    			               {printf("\nmultiplicación\n");}
 			| '/'    			               {printf("\ndivisión");}
 			;
 %%

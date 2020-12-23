@@ -8,17 +8,11 @@
 
 
 int main () {
-printf("\n--------------------------------");
-switch( yyparse() ) {
-		case 0: printf("\n\nCompilación terminada con éxito");
-			break;		
-		case 1: printf("\n\nErrores de compilación");
-			break;
-		case 2: printf("\n\nNo hay memoria suficiente");
-			break;		
-		}
-printf("\nErrores sintácticos:  %i\t - Errores lexicos:  %i\n", yynerrs, yylexerrs);
-printf("--------------------------------\n\n");
-return 0;
+if(yyparse()) {
+        printf("Errores de compilación\n");
+    } else {
+        printf("Compilación realizada con éxito\n");
+    }
+    printf("Errores sintácticos: %d  -  Errores léxicos: %d\n", yynerrs, yylexerrs);
 }
 
