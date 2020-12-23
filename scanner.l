@@ -32,10 +32,10 @@ fin-prog		            return FIN;
 {L}{LD}*                           {yylval = strdup(yytext); return ID;}
 {D}+                               {yylval = strdup(yytext); return CONSTANTE;}
 \+                                 return '+';
+"<-"                               return ASIGNACION;
 -                   		    return '-';
 \*                  		    return '*';
 "/"                                return '/';
-"<="                               return ASIGNACION;
 "("                                return '(';
 ")"                                return ')';
 ","                                return ',';
